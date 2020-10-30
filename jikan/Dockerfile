@@ -24,3 +24,5 @@ RUN apt-get update && apt-get install -y \
 ADD run-jikan.sh ./
 
 ENTRYPOINT ["./run-jikan.sh"]
+
+EXPOSE 80
