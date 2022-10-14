@@ -5,6 +5,8 @@ services:
     build:
       context: jikan
       dockerfile: Dockerfile
+    environment:
+      - REDIS_HOST=jikan-redis
     depends_on:
       - jikan-redis
     ports:

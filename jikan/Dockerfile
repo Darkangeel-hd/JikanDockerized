@@ -18,7 +18,7 @@ RUN	git clone https://github.com/jikan-me/jikan-rest.git -b v3 . \
 	&& composer update jikan-me/jikan
 
 RUN	sed    -i "s/CACHE_DRIVER=.*/CACHE_DRIVER=redis/" .env \
-	&& sed -i "s/REDIS_HOST=.*/REDIS_HOST=jikan-redis/" .env \
+	&& sed -i "s/REDIS_HOST=.*/REDIS_HOST=redis/" .env \
 	&& sed -i "s/CACHE_404_EXPIRE=.*/CACHE_404_EXPIRE=3600/" .env \
 	&& sed -i "s/CACHE_SEARCH_EXPIRE=.*/CACHE_SEARCH_EXPIRE=1000/" .env \
 	&& sed -i "s/GITHUB_REPORTING=.*/GITHUB_REPORTING=false/" .env
