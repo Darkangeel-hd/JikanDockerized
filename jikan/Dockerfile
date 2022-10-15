@@ -1,21 +1,23 @@
-FROM php:7.4-apache
+FROM php:7.4-cli-alpine
 
 ENV	COMPOSER_ALLOW_SUPERUSER 1
 
-RUN	apt-get update && apt-get install -y \
-	openssl \
+RUN	apk add --no-cache \
 	git \
 	unzip \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/* \
+	rm -rf /var/cache/apk/* \
 	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 	&& composer --version
+
+WORKDIR	/var/www/html
+USER www-data:www-data
 
 RUN	git clone https://github.com/jikan-me/jikan-rest.git -b v3 . \
 	&& git checkout v3 \
 	&& cp .env.dist .env \
 	&& composer require 'composer/package-versions-deprecated' \
 	&& composer install --prefer-dist --no-progress --classmap-authoritative  --no-interaction \
-	&& composer update jikan-me/jikan
+	&& composer update
 
 RUN	sed    -i "s/CACHE_DRIVER=.*/CACHE_DRIVER=redis/" .env \
 	&& sed -i "s/REDIS_HOST=.*/REDIS_HOST=redis/" .env \
